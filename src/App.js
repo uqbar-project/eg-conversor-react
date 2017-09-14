@@ -26,7 +26,7 @@ class App extends Component {
         <p>Ingrese millas:</p>
         <input type="text" name="millas" onChange={this.convertir} />
         <p>Ingrese kilómetros:</p>
-        <p>{this.state.kilometros}</p>
+        <p>{this.state.kilometros.toLocaleString('es')}</p>
       </div>
     );
   }
