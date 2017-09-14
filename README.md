@@ -1,7 +1,7 @@
 
 # Conversor ReactJS
 
-<img src="https://cloud.githubusercontent.com/assets/4549002/17750101/fa2f7334-6496-11e6-864f-6f57e8d7bc67.png" height="150" width="150"/>
+![video](video/demo.gif)
 
 Este proyecto fue generado con el script [Create React App](https://github.com/facebookincubator/create-react-app), y tiene
 
