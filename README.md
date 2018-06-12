@@ -67,7 +67,7 @@ class App extends Component {
 Para testear el componente probamos
 
 - que la aplicación levanta correctamente
-- que inicialmente el valor en kilómetros dice "<Ingrese millas>"
+- que inicialmente el valor en kilómetros dice `"<Ingrese millas>"`
 - que al escribir el valor "10" en millas eso convierte a "16.093"
 
 Dado que estaremos usando los _mocks_ de Enzyme, no se convierte el punto decimal a coma.
