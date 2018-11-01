@@ -58,6 +58,71 @@ class App extends Component {
 }
 ```
 
+## Entendiendo el binding de eventos
+
+En [este articulo](https://reactkungfu.com/2015/07/why-and-how-to-bind-methods-in-your-react-component-classes/) se explica que cuando definimos una función en Javascript, la variable `this` se refiere al contexto de ejecución de dicha función:
+
+```js
+// esto se puede ejecutar en cualquier browser
+let frog = {
+  RUN_SOUND: "POP!!",
+  run: function() { 
+    console.log('this es ', this)
+    return this.RUN_SOUND;
+  }
+}
+```
+
+Si `frog` es un objeto, y vemos `run()` como un método de dicho objeto, lo natural es que pensemos en enviar el mensaje de la siguiente manera:
+
+```js
+> frog.run() 
+this es  {RUN_SOUND: "POP!!", run: ƒ}
+"POP!!"
+```
+
+Pero ECMAScript es también un lenguaje funcional, entonces puedo definir una variable y construir una función a partir del método definido en `frog`:
+
+```js
+> const f = frog.run
+```
+
+Ojo que al no pasarle paréntesis, no estamos invocando a la función, sino referenciando con la variable f a la función `frog.run`, que no recibe parámetros y devuelve un string.
+
+Cuando invocamos a f, nuestra sorpresa:
+
+```js
+f()
+this es  Window {postMessage: ƒ, blur: ƒ, focus: ƒ, close: ƒ, frames: Window, …}
+undefined
+```
+
+La variable `this` no está ligada a `frog`, sino a `window` (nuestro browser). Al extraer `f` como variable separada del objeto `frog`, perdimos el contexto de ejecución de this. Para poder recuperarlo, necesitamos la función bind:
+
+```js
+> const fParaFrog = f.bind(frog)
+> fParaFrog()
+this es  {RUN_SOUND: "POP!!", run: ƒ}
+"POP!!"
+// o bien...
+> f.bind(frog)() // ...que produce el mismo resultado
+```
+
+Por ese motivo, queremos que al invocar a convertir las millas en kilómetros, `this` referencie a nuestro componente React y no a window. Entonces aplicamos el bind en el constructor:
+
+```js
+class App extends Component {
+  constructor() {
+    ...
+    this.convertir = this.convertir.bind(this)
+  }
+```
+
+Otros artículos que recomendamos leer:
+
+- [por qué debemos utilizar bind en eventos de ReactJS](https://medium.freecodecamp.org/this-is-why-we-need-to-bind-event-handlers-in-class-components-in-react-f7ea1a6f93eb)
+- [la documentación oficial de la función bind](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_objects/Function/bind)
+
 ## Ciclo de vida
 
 ![image](images/CicloVida.png)
