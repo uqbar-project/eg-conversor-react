@@ -68,7 +68,7 @@ let frog = {
   RUN_SOUND: "POP!!",
   run: function() { 
     console.log('this es ', this)
-    return this.RUN_SOUND;
+    return this.RUN_SOUND
   }
 }
 ```
@@ -92,7 +92,7 @@ Ojo que al no pasarle paréntesis, no estamos invocando a la función, sino refe
 Cuando invocamos a f, nuestra sorpresa:
 
 ```js
-f()
+> f()
 this es  Window {postMessage: ƒ, blur: ƒ, focus: ƒ, close: ƒ, frames: Window, …}
 undefined
 ```
