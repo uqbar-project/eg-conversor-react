@@ -118,6 +118,12 @@ class App extends Component {
   }
 ```
 
+Por qué lo hacemos? Porque en la función render asociamos el evento onChange a la referencia `convertir` de nuestra App, que de otra forma sería una función sin contexto asociado:
+
+```js
+        <input type="text" name="millas" id="millas" onChange={this.convertir} />
+```
+
 Otros artículos que recomendamos leer:
 
 - [por qué debemos utilizar bind en eventos de ReactJS](https://medium.freecodecamp.org/this-is-why-we-need-to-bind-event-handlers-in-class-components-in-react-f7ea1a6f93eb)
