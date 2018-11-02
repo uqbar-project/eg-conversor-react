@@ -10,12 +10,12 @@ configure({ adapter: new Adapter() })
 it('App levanta', () => {
   shallow(<App />)
 })
-it('convertir 10 millas a kilómetros', () => {
+it('convertir millas a kilómetros - inicialmente pide que ingreses millas', () => {
   const wrapper = shallow(<App/>)
   const kms = wrapper.find('#kms')
   expect(kms.text()).toBe("<Ingrese millas>")
 })
-it('convertir 10 millas a kilómetros', () => {
+it('convertir 10 millas a kilómetros - convierte correctamente', () => {
   const wrapper = shallow(<App/>)
   const millas = wrapper.find('#millas')
   millas.simulate('change', { 'target': { value: '10'}})
