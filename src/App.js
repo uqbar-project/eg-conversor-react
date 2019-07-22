@@ -9,7 +9,7 @@ class App extends Component {
     this.state = { kilometros: "<Ingrese millas>" }
     //this.convertir = this.convertir.bind(this)
   }
-  
+
   convertir(event) {
     this.setState({
       kilometros: new Conversor().convertir(event.target.value)
@@ -26,7 +26,10 @@ class App extends Component {
         <p>Ingrese millas:</p>
         <input type="text" name="millas" id="millas" onChange={this.convertir.bind(this)} />
         <p>Ingrese kilómetros:</p>
-        <p id="kms">{this.state.kilometros.toLocaleString('es')}</p>
+        {Number.isNaN(this.state.kilometros) ?
+          <p id="error">El formato utilizado no es valido</p>
+          : <p id="kms">{this.state.kilometros.toLocaleString('es')}</p>}
+
       </div>
     );
   }
