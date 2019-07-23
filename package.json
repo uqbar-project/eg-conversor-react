@@ -11,8 +11,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "test:e2e": "npm start & wait-on http://localhost:3000",
+    "start:ci": "npm start & wait-on http://localhost:3000",
     "cy:run": "cypress run",
+    "cy:verify": "cypress verify",
     "eject": "react-scripts eject"
   },
   "devDependencies": {
