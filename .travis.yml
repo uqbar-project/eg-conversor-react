@@ -9,6 +9,6 @@ cache:
   - node_modules
 script:
   - npm install
-  - npm test
-  - npm test:e2e
-  - npm cy:run
+  - npm run test
+  - npm run test:e2e
+  - npm run cy:run
