@@ -20,12 +20,11 @@ cache:
     - npm ci
     - npm run cy:verify
 
-defaults: &defaults
-  script:
-    #   ## print all Travis environment variables for debugging
-    - $(npm bin)/print-env TRAVIS
-    - npm run start:ci &
-    - npm run cy:run
+script:
+   #   ## print all Travis environment variables for debugging
+  - $(npm bin)/print-env TRAVIS
+  - npm run start:ci &
+  - npm run cy:run
     # after all tests finish running we need
     # to kill all background jobs (like "npm start &")
-    - kill $(jobs -p) || true
+  - kill $(jobs -p) || true
