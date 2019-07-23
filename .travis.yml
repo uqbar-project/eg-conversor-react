@@ -5,8 +5,9 @@ node_js:
   - '10.1'
 
 cache:
+  npm: true
   directories:
-  - node_modules
+  - ~/.cache
 script:
   - npm install
   - npm run test
