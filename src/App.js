@@ -24,11 +24,11 @@ class App extends Component {
           <h1>Conversor <small>React JS</small></h1>
         </div>
         <p>Ingrese millas:</p>
-        <input type="text" name="millas" id="millas" onChange={this.convertir.bind(this)} />
+        <input type="text" name="millas" data-testid="millas" onChange={this.convertir.bind(this)} />
         <p>Ingrese kilómetros:</p>
         {Number.isNaN(this.state.kilometros) ?
-          <p id="error">El formato utilizado no es valido</p>
-          : <p id="kms">{this.state.kilometros.toLocaleString('es')}</p>}
+          <p data-testid="error">El formato utilizado no es valido</p>
+          : <p data-testid="kms">{this.state.kilometros.toLocaleString('es')}</p>}
 
       </div>
     );
