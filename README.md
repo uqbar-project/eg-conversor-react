@@ -163,3 +163,66 @@ it('convertir 10 millas a kilómetros', () => {
   expect(kms.text()).toBe("16.093")
 })
 ```
+
+# Husky :rocket:
+
+## Que es ? :thinking: 
+Husky es una [libreria](https://github.com/typicode/husky#readme) de npm, que nos permite definir procesos/comandos que queremos que corran antes de efectuar un comando de git, en caso de que el comando genere un error, el comando de git no se efectuara ! por ejemplo antes de pushear o commitear.
+
+## Instalación
+
+Debemos instalar esta dependencia de desarrollo, para eso corremos el siguiente comando:
+
+```bash 
+npm install husky --save-dev
+```
+
+Una vez terminado, agregamos en nuestro `package.json` una key llamada `husky` tal cual nos indica en la documentacion
+
+```json
+"husky": {
+    "hooks": {
+      "pre-commit": "echo 'que lindo commit !'",
+      "pre-push": "echo 'Ya esta todo subido !!!!! '",
+    }
+}
+```
+
+Ahora gracias a esto cada vez que hagamos un commit nos va a decir `que lindo commit !` y cada vez que pushemos `Ya esta todo subido !!!!!`
+
+### Ah... que bonito... y eso de que nos sirve ?
+
+Ahora podriamos cambiar esos `echo` por un comando que corra nuestros test unitarios, de esta manera, nunca vamos a hacer un commit o push con tests rotos ! :tada:
+
+```json
+"husky": {
+    "hooks": {
+      "pre-commit": "npm test",
+      "pre-push": "npm test",
+    }
+}
+```
+
+Si ahora intentamos commitear, gracias a que usamos jest y cada vez que corren los test, nos dispone una interfaz por consola. Se va a quedar trabado ahi y no vamos a poder commitear
+
+![image](images/consolaJest.png)
+
+Para fixear esto, al comando de jest se le puede pasar una variable `CI=true` que va a ser que no aparezca esta interfaz visual.
+
+```json
+"husky": {
+    "hooks": {
+      "pre-commit": "CI=true npm test",
+      "pre-push": "CI=true npm test"
+    }
+}
+```
+
+### Que pasa si quiero commitear/pushear igualmente aunque este todo roto ? :eyes: 
+
+Muy facil ! para poder hacer esto, lo que debemos hacer al commitear o pushear es agregar un `--no-verify` al final de nuestro comando
+
+```
+git commit -m "soy un commit con tests rotos" --no-verify
+git push --no-verify
+```
