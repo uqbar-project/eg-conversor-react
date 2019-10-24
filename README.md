@@ -164,7 +164,7 @@ it('convertir 10 millas a kilómetros', () => {
 })
 ```
 
-## Una nueva variante
+# Variante funcionalosa
 
 Aquí vemos que el objeto Conversor no tiene estado, nuestra primera alternativa será convertirlo en una función:
 
