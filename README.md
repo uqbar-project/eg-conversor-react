@@ -121,7 +121,7 @@ class App extends Component {
 Por qué lo hacemos? Porque en la función render asociamos el evento onChange a la referencia `convertir` de nuestra App, que de otra forma sería una función sin contexto asociado:
 
 ```js
-        <input type="text" name="millas" id="millas" onChange={this.convertir} />
+  <input type="text" name="millas" id="millas" onChange={this.convertir} />
 ```
 
 Otros artículos que recomendamos leer:
@@ -153,7 +153,7 @@ it('App levanta', () => {
 it('convertir 10 millas a kilómetros', () => {
   const wrapper = shallow(<App/>)
   const kms = wrapper.find('#kms')
-  expect(kms.text()).toBe("<Ingrese millas>")
+  expect(kms.text()).toBe('<Ingrese millas>')
 })
 it('convertir 10 millas a kilómetros', () => {
   const wrapper = shallow(<App/>)
@@ -163,3 +163,29 @@ it('convertir 10 millas a kilómetros', () => {
   expect(kms.text()).toBe("16.093")
 })
 ```
+
+## Una nueva variante
+
+Aquí vemos que el objeto Conversor no tiene estado, nuestra primera alternativa será convertirlo en una función:
+
+```js
+export default function convertir(millas) {
+    return millas * 1.60934
+}
+```
+
+El componente principal React lo importa como una función y la invoca (no hay objeto receptor), lo que sigue cambiando el estado del componente:
+
+```js
+  convertir(newMillas) {
+    this.setState({kilometros: convertir(newMillas)})
+  }
+```
+
+Y como variante, en lugar de bindear `this` vamos a utilizar una lambda en el render:
+
+```jsx
+  onChange={(event) => this.convertir(event.target.value)}/>
+```
+
+Esto permite que el método ya no reciba el misterioso `event` sino un nombre más representativo: `newMillas`.
