@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
-import Conversor from './conversor.js'
-import logo from './logo.svg'
 import './App.css'
+import convertir from './conversor.js'
+import logo from './logo.svg'
 
 class App extends Component {
   constructor() {
@@ -9,13 +9,10 @@ class App extends Component {
     this.state = {
       kilometros: '<Ingrese millas>'
     }
-    //this.convertir = this.convertir.bind(this)
   }
 
-  convertir(event) {
-    this.setState({
-      kilometros: new Conversor().convertir(event.target.value)
-    })
+  convertir(newMillas) {
+    this.setState({kilometros: convertir(newMillas)})
   }
 
   render() {
@@ -32,9 +29,7 @@ class App extends Component {
           type="text"
           name="millas"
           id="millas"
-          onChange={this
-          .convertir
-          .bind(this)}/>
+          onChange={(event) => this.convertir(event.target.value)}/>
         <p>Ingrese kilómetros:</p>
         <p id="kms">{this
             .state

@@ -1,7 +1,3 @@
-export default class Conversor {
-
-    convertir(millas) {
-        return millas * 1.60934
-    }
-
+export default function convertir(millas) {
+    return millas * 1.60934
 }
