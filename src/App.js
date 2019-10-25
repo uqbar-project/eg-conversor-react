@@ -1,25 +1,27 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import './App.css'
-import convertir from './conversor.js'
 import logo from './logo.svg'
+import { convertirMillasAKms } from './conversor'
 
 class App extends Component {
   constructor() {
     super()
     this.state = {
-      kilometros: '<Ingrese millas>'
+      kilometros: '<Ingrese millas>',
     }
   }
 
   convertir(newMillas) {
-    this.setState({kilometros: convertir(newMillas)})
+    this.setState({
+      kilometros: convertirMillasAKms(newMillas),
+    })
   }
 
   render() {
     return (
       <div className="App">
         <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo"/>
+          <img src={logo} className="App-logo" alt="logo" />
           <h1>Conversor
             <small>React JS</small>
           </h1>
@@ -29,12 +31,13 @@ class App extends Component {
           type="text"
           name="millas"
           id="millas"
-          onChange={(event) => this.convertir(event.target.value)}/>
+          onChange={(event) => this.convertir(event.target.value)} />
         <p>Ingrese kilómetros:</p>
         <p id="kms">{this
-            .state
-            .kilometros
-            .toLocaleString('es')}</p>
+          .state
+          .kilometros
+          .toLocaleString('es')
+        }</p>
       </div>
     )
   }
