@@ -25,4 +25,3 @@ it('convertir 10 millas a kilómetros - convierte correctamente', () => {
   const kms = wrapper.find(KMS_SELECTOR)
   expect(kms.text()).toBe("16.093")
 })
-
