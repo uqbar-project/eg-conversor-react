@@ -1,6 +1,8 @@
 
 # Conversor ReactJS
 
+[![Build Status](https://travis-ci.org/uqbar-project/eg-conversor-react.svg?branch=feature%2Fcypress)](https://travis-ci.org/uqbar-project/eg-conversor-react)
+
 ![video](video/demo.gif)
 
 Este proyecto fue generado con el script [Create React App](https://github.com/facebookincubator/create-react-app).
@@ -327,6 +329,7 @@ Fácil, creamos dentro de nuestro package.json los siguientes comandos:
   "start": "react-scripts start",
   "start:ci": "npm start & wait-on http://localhost:3000",
   "cy:run": "cypress run",
+  "cy:open": "cypress open",
   "cy:verify": "cypress verify",
 }
 ```
@@ -359,6 +362,8 @@ script:
 ```
 
 - `npm run start:ci` levanta nuestra aplicación y espera a que este completamente levantada para seguir al próximo paso (usamos una lib llamada wait-on para esperar)
+
+para instalar `wait-on` : `npm install --save-dev wait-on`
 
 - `npm run cy:run` corre nuestros tests
 
