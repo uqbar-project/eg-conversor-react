@@ -23,5 +23,6 @@ it('convertir 10 millas a kilómetros - convierte correctamente', () => {
     }
   })
   const kms = wrapper.find('[data-testid="kms"]')
-  expect(kms.text()).toBe('16.093')
+  // https://stackoverflow.com/questions/52618569/set-the-locale-for-date-prototype-tolocalestring-for-jest-tests
+  expect(kms.text()).toBe('16,093')
 })
