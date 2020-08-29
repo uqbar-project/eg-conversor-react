@@ -1,7 +1,9 @@
-import React, { Component } from 'react'
 import './App.css'
-import logo from './logo.svg'
+
+import React, { Component } from 'react'
+
 import { convertirMillasAKms } from './conversor'
+import logo from './logo.svg'
 
 class App extends Component {
   constructor() {
@@ -30,10 +32,10 @@ class App extends Component {
         <input
           type="text"
           name="millas"
-          id="millas"
+          data-testid="millas"
           onChange={(event) => this.convertir(event.target.value)} />
         <p>Ingrese kilómetros:</p>
-        <p id="kms">{this
+        <p data-testid="kms">{this
           .state
           .kilometros
           .toLocaleString('es')
