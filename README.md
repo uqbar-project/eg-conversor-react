@@ -144,23 +144,24 @@ Para testear el componente probamos
 
 Dado que estaremos usando los _mocks_ de Enzyme, no se convierte el punto decimal a coma.
 
-Vemos los tests en el archivo _App.test.js_ del directorio src:
+Vemos los tests en el archivo _App.test.js_ del directorio src, recordando la importancia de buscar elementos por `data-testid` para no mezclar concerns de presentación vs. testing. Lo que tenga prefijo data es ignorado por el navegador pero necesario para poder identificar los elementos HTML en los tests sin estar atados a buscar _divs_, _spans_, o _ids_ puntuales:
 
 ```javascript
-it('App levanta', () => {
-  shallow(<App />)
-})
-it('convertir 10 millas a kilómetros', () => {
-  const wrapper = shallow(<App/>)
-  const kms = wrapper.find('#kms')
+it('convertir millas a kilómetros - inicialmente pide que ingreses millas', () => {
+  const wrapper = shallow(<App />)
+  const kms = wrapper.find('[data-testid="kms"]')
   expect(kms.text()).toBe('<Ingrese millas>')
 })
-it('convertir 10 millas a kilómetros', () => {
-  const wrapper = shallow(<App/>)
-  const millas = wrapper.find('#millas')
-  millas.simulate('change', { 'target': { value: '10'}})
-  const kms = wrapper.find('#kms')
-  expect(kms.text()).toBe("16.093")
+it('convertir 10 millas a kilómetros - convierte correctamente', () => {
+  const wrapper = shallow(<App />)
+  const millas = wrapper.find('[data-testid="millas"]')
+  millas.simulate('change', {
+    'target': {
+      value: '10'
+    }
+  })
+  const kms = wrapper.find('[data-testid="kms"]')
+  expect(kms.text()).toBe('16.093')
 })
 ```
 
