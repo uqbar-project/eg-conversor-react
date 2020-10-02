@@ -14,15 +14,15 @@ it('convertir millas a kilómetros - inicialmente pide que ingreses millas', () 
   const kms = wrapper.find('[data-testid="kms"]')
   expect(kms.text()).toBe('<Ingrese millas>')
 })
-it('convertir 10 millas a kilómetros - convierte correctamente', () => {
+it('convertir un valor común de millas a kilómetros - convierte correctamente', () => {
   const wrapper = shallow(<App />)
-  const millas = wrapper.find('[data-testid="millas"]')
+  const millas = wrapper.find({ 'data-testid': 'millas' })
   millas.simulate('change', {
     'target': {
       value: '10'
     }
   })
-  const kms = wrapper.find('[data-testid="kms"]')
+  const kms = wrapper.find({ 'data-testid': 'kms' })
   // https://stackoverflow.com/questions/52618569/set-the-locale-for-date-prototype-tolocalestring-for-jest-tests
   expect(kms.text()).toBe('16,093')
 })
