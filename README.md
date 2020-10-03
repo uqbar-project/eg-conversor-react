@@ -1,4 +1,6 @@
 
+[![Build Status](https://travis-ci.org/uqbar-project/eg-conversor-react.svg?branch=master)](https://travis-ci.org/uqbar-project/eg-conversor-react)
+
 # Conversor ReactJS
 
 ![video](video/demo.gif)
