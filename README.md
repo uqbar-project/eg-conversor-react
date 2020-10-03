@@ -190,3 +190,25 @@ Y como variante, en lugar de bindear `this` vamos a utilizar una lambda en el re
 ```
 
 Esto permite que el método ya no reciba el misterioso `event` sino un nombre más representativo: `newMillas`.
+
+## Customizaciones
+
+### Font
+
+El font-family lo configuramos en el archivo `src/App.css`
+
+```css
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+}
+```
+
+Y dentro de la carpeta `public` del raíz de este proyecto, vas a encontrar el `index.html` donde tenés que referenciar al typeface:
+
+```html
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
+```
+
+### Favicon
+
+En la carpeta `public` también se ubica el `favicon.ico` que podés generar a partir de un png con varios programas online, como https://convertico.com/
