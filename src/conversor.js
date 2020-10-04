@@ -1,3 +1,3 @@
-export function convertirMillasAKms(millas) {
-    return millas * 1.60934
-}
+const FACTOR_CONVERSION = 1.60934
+
+export const convertirMillasAKms = (millas) => millas * FACTOR_CONVERSION

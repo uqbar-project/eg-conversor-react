@@ -1,7 +1,9 @@
-import React, { Component } from 'react'
 import './App.css'
-import logo from './logo.svg'
+
+import React, { Component } from 'react'
+
 import { convertirMillasAKms } from './conversor'
+import logo from './logo.svg'
 
 class App extends Component {
   constructor() {
@@ -23,11 +25,12 @@ class App extends Component {
         <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1>Conversor
+          &nbsp;
             <small>React JS</small>
           </h1>
         </div>
         <p>Ingrese millas:</p>
-        <input type="text" name="millas" data-testid="millas" onChange={(event) => this.convertir(event.target.value)} />
+        <input autoComplete="off" type="text" name="millas" data-testid="millas" onChange={(event) => this.convertir(event.target.value)} />
         <p>Ingrese kilómetros:</p>
         {Number.isNaN(this.state.kilometros) ?
           <p data-testid="error">El formato utilizado no es valido</p>
