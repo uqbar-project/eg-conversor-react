@@ -3,7 +3,7 @@
 
 [![Build Status](https://travis-ci.org/uqbar-project/eg-conversor-react.svg?branch=feature%2Fcypress)](https://travis-ci.org/uqbar-project/eg-conversor-react)
 
-Si estás buscando la explicación original podés encontrarla en el branch master.
+Si estás buscando la explicación original podés encontrarla en el branch [master](https://github.com/uqbar-project/eg-conversor-react).
 
 # Cypress :tada: :tada: :tada: 
 
@@ -41,7 +41,7 @@ Si es la primera vez que corremos el proyecto, nos va a crear un montón de ejem
 
 En la primera pantalla nos muestra los archivos de tests que escribimos, los clickeamos y abre un navegador y empieza a correr nuestros tests. Pero ¡ojo! tenemos que tener nuestra aplicación levantada para poder correr los tests
 
-¿Y como se hace eso ?
+¿Y cómo se hace eso ?
 
 ```bash
 npm run start
