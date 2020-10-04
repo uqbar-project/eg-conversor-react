@@ -21,6 +21,7 @@ cache:
 
 defaults: &defaults
 script:
+  - npm run start:ci
   - npm run test
   - $(npm bin)/cypress run --record
   # after all tests finish running we need
