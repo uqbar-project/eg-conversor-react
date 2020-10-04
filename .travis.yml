@@ -1,7 +1,7 @@
 language: node_js
 
 node_js:
-  - '14'
+  - 10
 
 # if using Ubuntu 16 need this library
 # https://github.com/cypress-io/cypress-documentation/pull/1647
@@ -21,9 +21,8 @@ cache:
 
 defaults: &defaults
 script:
-  - npm run start:ci &
   - npm run test
-  - npm run cy:run
+  - $(npm bin)/cypress run --record
   # after all tests finish running we need
   # to kill all background jobs (like "npm start &")
-  - kill $(jobs -p) || true  
+  # - kill $(jobs -p) || true  
