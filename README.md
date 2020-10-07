@@ -133,10 +133,9 @@ Fácil, creamos dentro de nuestro `package.json` los siguientes comandos:
 
 ```json
 {
-  "start": "react-scripts start",
-  "start:ci": "npm start & wait-on http://localhost:3000",
-  "cy:run": "cypress run",
   "cy:open": "cypress open",
+  "cy:run": "cypress run",
+  "cy:ci": "start-server-and-test start 3000 cy:run",
   "cy:verify": "cypress verify",
 }
 ```
@@ -147,7 +146,7 @@ Ya que dentro de travis utilizamos los siguientes comandos:
 language: node_js
 
 node_js:
-  - '14'
+  - 14
 
 # if using Ubuntu 16 need this library
 # https://github.com/cypress-io/cypress-documentation/pull/1647
@@ -165,17 +164,16 @@ cache:
     - npm ci
     - npm run cy:verify
 
+defaults: &defaults
 script:
-  - npm run start:ci
   - npm run test
-  - npm run cy:run
+  - npm run cy:ci
 ```
 
-- `npm run start:ci` levanta nuestra aplicación y espera a que este completamente levantada para seguir al próximo paso (usamos una lib llamada wait-on para esperar)
+- `npm run cy:ci` levanta nuestra aplicación y espera a que este completamente levantada para seguir al próximo paso (usamos una biblioteca llamada start-server-and-test para esperar)
 
-para instalar `wait-on` : `npm install --save-dev wait-on`
+para instalar `start-server-and-test` : `npm install --save-dev wait-on`
 
-- `npm run cy:run` corre nuestros tests
-
+- `npm run cy:ci` corre nuestros tests en modo Continuous Integration
 - `npm run cy:verify` chequea la instalación de travis en el ambiente
 
