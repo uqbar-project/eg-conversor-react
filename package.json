@@ -17,18 +17,19 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "NODE_ICU_DATA=node_modules/full-icu react-scripts test",
-    "start:ci": "npm start & wait-on http://localhost:3000",
-    "cy:run": "cypress run",
     "cy:open": "cypress open",
+    "cy:run": "cypress run",
+    "cy:ci": "start-server-and-test start 3000 cy:run",
     "cy:verify": "cypress verify",
     "eject": "react-scripts eject",
     "lint": "eslint src/**/*.js src/**/*.jsx"
   },
   "devDependencies": {
-    "cypress": "^3.4.0",
+    "cypress": "^5.3.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.1",
     "jest-enzyme": "^7.1.1",
+    "start-server-and-test": "^1.11.5",
     "wait-on": "^3.3.0"
   },
   "eslintConfig": {
