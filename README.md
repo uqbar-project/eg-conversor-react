@@ -3,29 +3,34 @@
 
 # Conversor ReactJS
 
-![video](video/demo.gif)
+![video](video/demo2020.gif)
 
 Este proyecto fue generado con el script [Create React App](https://github.com/facebookincubator/create-react-app).
 
 ## Arquitectura general
 
+### Dominio
+
 ![image](images/ConversorArquitectura.png)
 
-El dominio es un objeto que recibe un número que representa las millas y devuelve su valor convertido a kilómetros. No tiene variables de instancia. Se puede ver en el archivo _conversor.js_ del directorio src:
+El dominio podría ser 
 
-```javascript
-export default class Conversor {
-    convertir(millas) {
-        return millas * 1.60934
-    }
-}
+- un objeto
+- o bien podemos modelarlo simplemente con una función, que recibe las millas y lo convierte a kilómetros. Se puede ver en el archivo _conversor.js_ del directorio src:
+
+```js
+const FACTOR_CONVERSION = 1.60934
+
+export const convertirMillasAKms = (millas) => millas * FACTOR_CONVERSION
 ```
+
+### Vista
 
 La vista tiene 
 
-- como estado una sola clave: "kilometros" que apunta al valor convertido.
+- como estados tres claves: "millas" con el valor en millas, "kilometros" que apunta al valor convertido, y "success" / "warning" en caso de que la conversión sea exitosa o no.
 - un input type text cuyo evento onChange dispara la conversión
-- al convertir se actualiza el state del componente generando un nuevo conversor y llamando al convertir. El valor resultante va a parar a la única variable kilometros.
+- al convertir se actualiza el state del componente generando un nuevo conversor y llamando al convertir. El valor resultante va a parar a la variable `kilometros`.
 
 Esto puede verse en el archivo _App.js_ del directorio src:
 
@@ -33,32 +38,73 @@ Esto puede verse en el archivo _App.js_ del directorio src:
 class App extends Component {
   constructor() {
     super()
-    this.state = { kilometros: "<Ingrese millas>" }
-    this.convertir = this.convertir.bind(this)
+    this.state = {
+      millas: '',
+      kilometros: '<Ingrese millas>',
+      colorConversion: 'warning',
+    }
   }
-  
-  convertir(event) {
+
+  convertir(newMillas) {
     this.setState({
-      kilometros: new Conversor().convertir(event.target.value)
+      millas: newMillas,
+      kilometros: isNaN(newMillas) ? '<Ingrese un valor numérico>' : convertirMillasAKms(newMillas),
+      colorConversion: isNaN(newMillas) ? 'warning' : 'success',
     })
   }
 
   render() {
     return (
       <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1>Conversor <small>React JS</small></h1>
-        </div>
-        <p>Ingrese millas:</p>
-        <input type="text" name="millas" id="millas" onChange={this.convertir} />
-        <p>Ingrese kilómetros:</p>
-        <p id="kms">{this.state.kilometros.toLocaleString('es')}</p>
+        <Box>
+          <Heading>
+            Conversor de millas a kilómetros - React
+        </Heading>
+          <Field>
+            <Label>Millas</Label>
+            <Control>
+              <Input value={this.state.millas} name="millas" autoComplete="off" data-testid="millas" onChange={(event) => this.convertir(event.target.value)} />
+            </Control>
+          </Field>
+          <Field>
+            <Label>Kilómetros</Label>
+            <Tag color={this.state.colorConversion} rounded>
+              <Label data-testid="kms">{this.state.kilometros.toLocaleString('es')}</Label>
+            </Tag>
+          </Field>
+        </Box>
       </div>
-    );
+    )
   }
 }
 ```
+
+## Reaccionando ante un cambio en las millas
+
+Nos detenemos en la definición del evento onChange para el input de millas:
+
+```jsx
+onChange={(event) => this.convertir(event.target.value)}
+```
+
+Definir una expresión lambda (_arrow function_) permite que la referencia `this` esté apuntando al componente React que estamos escribiendo. Podríamos pensar que una definición similar podría ser:
+
+```jsx
+onChange={this.convertir}
+```
+
+Y modificar el método convertir para adaptar el valor recibido:
+
+```js
+  convertir(event) {
+    const newMillas = event.target.value
+    this.setState({
+      ...
+```
+
+Pero ojo que podemos llevarnos algunas sorpresas...
+
+![error, setState undefined](./images/setStateUndefinedThis.png)
 
 ## Entendiendo el binding de eventos
 
@@ -66,7 +112,7 @@ En [este articulo](https://reactkungfu.com/2015/07/why-and-how-to-bind-methods-i
 
 ```js
 // esto se puede ejecutar en cualquier browser
-let frog = {
+const frog = {
   RUN_SOUND: "POP!!",
   run: function() { 
     console.log('this es ', this)
@@ -120,7 +166,7 @@ class App extends Component {
   }
 ```
 
-Por qué lo hacemos? Porque en la función render asociamos el evento onChange a la referencia `convertir` de nuestra App, que de otra forma sería una función sin contexto asociado:
+¿Por qué lo hacemos? Porque en la función render asociamos el evento onChange a la referencia `convertir` de nuestra App, que de otra forma sería una función sin contexto asociado:
 
 ```js
   <input type="text" name="millas" id="millas" onChange={this.convertir} />
@@ -132,6 +178,8 @@ Otros artículos que recomendamos leer:
 - [la documentación oficial de la función bind](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_objects/Function/bind)
 - [5 formas de definir el binding](https://medium.freecodecamp.org/react-binding-patterns-5-approaches-for-handling-this-92c651b5af56)
 
+> A partir de aquí, dejamos que establezcas tu propio criterio para elegir una opción u otra.
+
 ## Ciclo de vida
 
 ![image](images/CicloVida.png)
@@ -140,58 +188,35 @@ Otros artículos que recomendamos leer:
 
 Para testear el componente probamos
 
-- que la aplicación levanta correctamente
 - que inicialmente el valor en kilómetros dice `"<Ingrese millas>"`
+- que si escribimos un valor alfabético el valor en kilómetros mostrará el error `"<Ingrese un valor numérico>"`
 - que al escribir el valor "10" en millas eso convierte a "16.093"
 
-Dado que estaremos usando los _mocks_ de Enzyme, no se convierte el punto decimal a coma.
-
-Vemos los tests en el archivo _App.test.js_ del directorio src, recordando la importancia de buscar elementos por `data-testid` para no mezclar concerns de presentación vs. testing. Lo que tenga prefijo data es ignorado por el navegador pero necesario para poder identificar los elementos HTML en los tests sin estar atados a buscar _divs_, _spans_, o _ids_ puntuales:
-
-```javascript
-it('convertir millas a kilómetros - inicialmente pide que ingreses millas', () => {
-  const wrapper = shallow(<App />)
-  const kms = wrapper.find('[data-testid="kms"]')
-  expect(kms.text()).toBe('<Ingrese millas>')
-})
-it('convertir 10 millas a kilómetros - convierte correctamente', () => {
-  const wrapper = shallow(<App />)
-  const millas = wrapper.find('[data-testid="millas"]')
-  millas.simulate('change', {
-    'target': {
-      value: '10'
-    }
-  })
-  const kms = wrapper.find('[data-testid="kms"]')
-  expect(kms.text()).toBe('16.093')
-})
-```
-
-# Variante funcionalosa
-
-Aquí vemos que el objeto Conversor no tiene estado, nuestra primera alternativa será convertirlo en una función:
+Resolvemos los tests unitarios utilizando el framework React Testing Library (que reemplaza a Enzyme para las versiones recientes de create-react-app)
 
 ```js
-export default function convertir(millas) {
-    return millas * 1.60934
-}
+test('convierte un valor > 0 de millas a kilómetros correctamente', async () => {
+  const { getByTestId } = render(<App />)
+  // El usuario carga 10 en millas
+  const inputMillas = getByTestId('millas')
+  fireEvent.change(inputMillas, { target: { value: '10' } })
+  // https://stackoverflow.com/questions/52618569/set-the-locale-for-date-prototype-tolocalestring-for-jest-tests
+  expect(getByTestId('kms')).toHaveTextContent('16,093')
+})
+
+test('inicialmente pide que convirtamos de millas a kilómetros', async () => {
+  const { getByTestId } = render(<App />)
+  expect(getByTestId('kms')).toHaveTextContent('<Ingrese millas>')
+})
+
+test('si ingresa un valor alfabético la conversión de millas a kilómetros no se realiza', async () => {
+  const { getByTestId } = render(<App />)
+  // El usuario carga 10 en millas
+  const inputMillas = getByTestId('millas')
+  fireEvent.change(inputMillas, { target: { value: 'dos' } })
+  expect(getByTestId('kms')).toHaveTextContent('<Ingrese un valor numérico>')
+})
 ```
-
-El componente principal React lo importa como una función y la invoca (no hay objeto receptor), lo que sigue cambiando el estado del componente:
-
-```js
-  convertir(newMillas) {
-    this.setState({kilometros: convertir(newMillas)})
-  }
-```
-
-Y como variante, en lugar de bindear `this` vamos a utilizar una lambda en el render:
-
-```jsx
-  onChange={(event) => this.convertir(event.target.value)}/>
-```
-
-Esto permite que el método ya no reciba el misterioso `event` sino un nombre más representativo: `newMillas`.
 
 ## Customizaciones
 
@@ -214,3 +239,10 @@ Y dentro de la carpeta `public` del raíz de este proyecto, vas a encontrar el `
 ### Favicon
 
 En la carpeta `public` también se ubica el `favicon.ico` que podés generar a partir de un png con varios programas online, como https://convertico.com/
+
+### react-bulma-components
+
+Para definir los estilos de la página utilizamos los componentes definidos por React Bulma Components:
+
+- [Página de inicio](https://github.com/couds/react-bulma-components)
+- [Storybook](https://couds.github.io/react-bulma-components/?path=/story)
