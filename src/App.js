@@ -6,25 +6,27 @@ import { convertirMillasAKms } from './conversor'
 
 const { Control, Field, Label, Input } = Form
 
+const INITIAL_VALUE = ''
+
 class App extends Component {
   constructor() {
     super()
     this.state = {
-      millas: '',
-      kilometros: '<Ingrese millas>',
-      colorConversion: 'warning',
+      millas: INITIAL_VALUE,
     }
   }
 
   convertir(newMillas) {
     this.setState({
       millas: newMillas,
-      kilometros: isNaN(newMillas) ? '<Ingrese un valor numérico>' : convertirMillasAKms(newMillas),
-      colorConversion: isNaN(newMillas) ? 'warning' : 'success',
     })
   }
 
   render() {
+    const newMillas = this.state.millas
+    const kilometros = newMillas === INITIAL_VALUE ? '<Ingrese millas>' : (isNaN(newMillas) ? '<Ingrese un valor numérico>' : convertirMillasAKms(newMillas))
+    const colorConversion = newMillas === INITIAL_VALUE || isNaN(newMillas) ? 'warning' : 'success'
+
     return (
       <div className="App">
         <Box>
@@ -39,8 +41,8 @@ class App extends Component {
           </Field>
           <Field>
             <Label>Kilómetros</Label>
-            <Tag color={this.state.colorConversion} rounded>
-              <Label data-testid="kms">{this.state.kilometros.toLocaleString('es')}</Label>
+            <Tag color={colorConversion} rounded>
+              <Label data-testid="kms">{kilometros.toLocaleString('es')}</Label>
             </Tag>
           </Field>
         </Box>
