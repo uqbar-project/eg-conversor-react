@@ -11,7 +11,7 @@ Este proyecto fue generado con el script [Create React App](https://github.com/f
 
 ### Dominio
 
-![image](images/ConversorArquitectura.png)
+![image](images/ConversorReactClases.png)
 
 El dominio podría ser 
 
@@ -28,9 +28,10 @@ export const convertirMillasAKms = (millas) => millas * FACTOR_CONVERSION
 
 La vista tiene 
 
-- como estados tres claves: "millas" con el valor en millas, "kilometros" que apunta al valor convertido, y "success" / "warning" en caso de que la conversión sea exitosa o no.
+- como estados una sola clave: "millas" con el valor en millas
+- temporalmente tomamos las millas del estado y hacemos la conversión a kilómetros, y definimos la clase "success" / "warning" en caso de que la conversión sea exitosa o no para ver el badge verde o amarillo, respectivamente.
 - un input type text cuyo evento onChange dispara la conversión
-- al convertir se actualiza el state del componente generando un nuevo conversor y llamando al convertir. El valor resultante va a parar a la variable `kilometros`.
+- al convertir se actualiza el state del componente generando un nuevo valor para la variable `millas`.
 
 Esto puede verse en el archivo _App.js_ del directorio src:
 
@@ -39,21 +40,21 @@ class App extends Component {
   constructor() {
     super()
     this.state = {
-      millas: '',
-      kilometros: '<Ingrese millas>',
-      colorConversion: 'warning',
+      millas: INITIAL_VALUE,
     }
   }
 
   convertir(newMillas) {
     this.setState({
       millas: newMillas,
-      kilometros: isNaN(newMillas) ? '<Ingrese un valor numérico>' : convertirMillasAKms(newMillas),
-      colorConversion: isNaN(newMillas) ? 'warning' : 'success',
     })
   }
 
   render() {
+    const newMillas = this.state.millas
+    const kilometros = newMillas === INITIAL_VALUE ? '<Ingrese millas>' : (isNaN(newMillas) ? '<Ingrese un valor numérico>' : convertirMillasAKms(newMillas))
+    const colorConversion = newMillas === INITIAL_VALUE || isNaN(newMillas) ? 'warning' : 'success'
+
     return (
       <div className="App">
         <Box>
@@ -68,8 +69,8 @@ class App extends Component {
           </Field>
           <Field>
             <Label>Kilómetros</Label>
-            <Tag color={this.state.colorConversion} rounded>
-              <Label data-testid="kms">{this.state.kilometros.toLocaleString('es')}</Label>
+            <Tag color={colorConversion} rounded>
+              <Label data-testid="kms">{kilometros.toLocaleString('es')}</Label>
             </Tag>
           </Field>
         </Box>
@@ -104,7 +105,7 @@ Y modificar el método convertir para adaptar el valor recibido:
 
 Pero ojo que podemos llevarnos algunas sorpresas...
 
-![error, setState undefined](./images/setStateUndefinedThis.png)
+![error, setState undefined](./images/setStateUndefinedThis2.png)
 
 ## Entendiendo el binding de eventos
 
@@ -182,7 +183,17 @@ Otros artículos que recomendamos leer:
 
 ## Ciclo de vida
 
-![image](images/CicloVida.png)
+Para entender el ciclo de vida
+
+1. render inicial
+2. el usuario escribe un 1
+3. onChange dispara un nuevo setState con el objeto `{ "millas": "1" }`
+4. se ejecuta un nuevo render, con la conversión a kilómetros
+5. el usuario escribe un 2, 
+6. onChange dispara un nuevo setState con el objeto `{ "millas": "12" }`
+7. se ejecuta un nuevo render, con la conversión a kilómetros...
+
+pueden escribir un `console.log` en cada evento.
 
 # Testing
 
