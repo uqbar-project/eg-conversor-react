@@ -1,4 +1,5 @@
-import { fireEvent, render } from '@testing-library/react'
+import { render } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import React from 'react'
 
 import App from './App'
@@ -7,7 +8,7 @@ test('convierte un valor > 0 de millas a kilómetros correctamente', async () =>
   const { getByTestId } = render(<App />)
   // El usuario carga 10 en millas
   const inputMillas = getByTestId('millas')
-  fireEvent.change(inputMillas, { target: { value: '10' } })
+  userEvent.type(inputMillas, '10')
   // https://stackoverflow.com/questions/52618569/set-the-locale-for-date-prototype-tolocalestring-for-jest-tests
   expect(getByTestId('kms')).toHaveTextContent('16,093')
 })
@@ -21,6 +22,6 @@ test('si ingresa un valor alfabético la conversión de millas a kilómetros no 
   const { getByTestId } = render(<App />)
   // El usuario carga 10 en millas
   const inputMillas = getByTestId('millas')
-  fireEvent.change(inputMillas, { target: { value: 'dos' } })
+  userEvent.type(inputMillas, 'dos')
   expect(getByTestId('kms')).toHaveTextContent('<Ingrese un valor numérico>')
 })
