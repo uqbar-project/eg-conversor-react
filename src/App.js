@@ -16,7 +16,7 @@ class App extends Component {
     }
   }
 
-  convertir(newMillas) {
+  actualizarMillas(newMillas) {
     this.setState({
       millas: newMillas,
     })
@@ -36,7 +36,7 @@ class App extends Component {
           <Field>
             <Label>Millas</Label>
             <Control>
-              <Input value={this.state.millas} name="millas" autoComplete="off" data-testid="millas" onChange={(event) => this.convertir(event.target.value)} />
+              <Input value={this.state.millas} name="millas" autoComplete="off" data-testid="millas" onChange={(event) => this.actualizarMillas(event.target.value)} />
             </Control>
           </Field>
           <Field>

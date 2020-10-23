@@ -44,7 +44,7 @@ class App extends Component {
     }
   }
 
-  convertir(newMillas) {
+  actualizarMillas(newMillas) {
     this.setState({
       millas: newMillas,
     })
@@ -64,7 +64,7 @@ class App extends Component {
           <Field>
             <Label>Millas</Label>
             <Control>
-              <Input value={this.state.millas} name="millas" autoComplete="off" data-testid="millas" onChange={(event) => this.convertir(event.target.value)} />
+              <Input value={this.state.millas} name="millas" autoComplete="off" data-testid="millas" onChange={(event) => this.actualizarMillas(event.target.value)} />
             </Control>
           </Field>
           <Field>
@@ -85,19 +85,19 @@ class App extends Component {
 Nos detenemos en la definición del evento onChange para el input de millas:
 
 ```jsx
-onChange={(event) => this.convertir(event.target.value)}
+onChange={(event) => this.actualizarMillas(event.target.value)}
 ```
 
 Definir una expresión lambda (_arrow function_) permite que la referencia `this` esté apuntando al componente React que estamos escribiendo. Podríamos pensar que una definición similar podría ser:
 
 ```jsx
-onChange={this.convertir}
+onChange={this.actualizarMillas}
 ```
 
-Y modificar el método convertir para adaptar el valor recibido:
+Y modificar el método actualizarMillas para adaptar el valor recibido:
 
 ```js
-  convertir(event) {
+  actualizarMillas(event) {
     const newMillas = event.target.value
     this.setState({
       ...
@@ -157,20 +157,20 @@ this es  {RUN_SOUND: "POP!!", run: ƒ}
 > f.bind(frog)() // ...que produce el mismo resultado
 ```
 
-Por ese motivo, queremos que al invocar a convertir las millas en kilómetros, `this` referencie a nuestro componente React y no a window. Entonces aplicamos el bind en el constructor:
+Por ese motivo, queremos que al invocar a actualizarMillas, `this` referencie a nuestro componente React y no a window. Entonces aplicamos el bind en el constructor:
 
 ```js
 class App extends Component {
   constructor() {
     ...
-    this.convertir = this.convertir.bind(this)
+    this.actualizarMillas = this.actualizarMillas.bind(this)
   }
 ```
 
-¿Por qué lo hacemos? Porque en la función render asociamos el evento onChange a la referencia `convertir` de nuestra App, que de otra forma sería una función sin contexto asociado:
+¿Por qué lo hacemos? Porque en la función render asociamos el evento onChange a la referencia `actualizarMillas` de nuestra App, que de otra forma sería una función sin contexto asociado:
 
 ```js
-  <input type="text" name="millas" id="millas" onChange={this.convertir} />
+  <input type="text" name="millas" id="millas" onChange={this.actualizarMillas} />
 ```
 
 Otros artículos que recomendamos leer:
