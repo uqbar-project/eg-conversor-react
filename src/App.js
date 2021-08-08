@@ -1,6 +1,7 @@
-import './App.css'
-
-import React, { Component } from 'react'
+import { Component } from 'react'
+import React from 'react'
+import 'bulma/css/bulma.min.css'
+import { Box, Form, Heading, Tag } from 'react-bulma-components'
 
 import { convertirMillasAKms } from './conversor'
 import logo from './logo.svg'

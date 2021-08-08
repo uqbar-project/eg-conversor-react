@@ -1,12 +1,7 @@
 
-<<<<<<< HEAD
-=======
-[![Build React App](https://github.com/uqbar-project/eg-conversor-react/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/uqbar-project/eg-conversor-react/actions/workflows/build.yml) ![coverage](./badges/coverage/coverage.svg)
+[![Build React App](https://github.com/uqbar-project/eg-conversor-react/actions/workflows/build.yml/badge.svg?branch=feature%2Fcypress)](https://github.com/uqbar-project/eg-conversor-react/actions/workflows/build.yml) ![coverage](./badges/coverage/coverage.svg)
 
->>>>>>> c274bc8 (2021 version)
 # Conversor ReactJS
-
-[![Build Status](https://travis-ci.org/uqbar-project/eg-conversor-react.svg?branch=feature%2Fcypress)](https://travis-ci.org/uqbar-project/eg-conversor-react)
 
 Si estás buscando la explicación original podés encontrarla en el branch [master](https://github.com/uqbar-project/eg-conversor-react).
 
@@ -182,3 +177,10 @@ para instalar `start-server-and-test` : `npm install --save-dev wait-on`
 - `npm run cy:ci` corre nuestros tests en modo Continuous Integration
 - `npm run cy:verify` chequea la instalación de travis en el ambiente
 
+<<<<<<< HEAD
+=======
+- [Página de inicio](https://github.com/couds/react-bulma-components)
+- [Storybook](https://couds.github.io/react-bulma-components/?path=/story)
+
+> **Nota importante**: estamos usando la versión 3.4.0 ya que de la 4 en adelante no está generado correctamente el build y no funciona.
+>>>>>>> 14e298c (Downgrading react-bulma-components)
