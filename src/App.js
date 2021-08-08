@@ -20,6 +20,10 @@ class App extends Component {
   }
 
   render() {
+    const newMillas = this.state.millas
+    const kilometros = newMillas === INITIAL_VALUE ? '<Ingrese millas>' : isNaN(newMillas) ? '<Ingrese un valor numérico>' : convertirMillasAKms(newMillas)
+    const colorConversion = newMillas === INITIAL_VALUE || isNaN(newMillas) ? 'warning' : 'success'
+
     return (
       <div className="App">
         <div className="App-header">

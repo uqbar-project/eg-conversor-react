@@ -1,4 +1,9 @@
 
+<<<<<<< HEAD
+=======
+[![Build React App](https://github.com/uqbar-project/eg-conversor-react/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/uqbar-project/eg-conversor-react/actions/workflows/build.yml) ![coverage](./badges/coverage/coverage.svg)
+
+>>>>>>> c274bc8 (2021 version)
 # Conversor ReactJS
 
 [![Build Status](https://travis-ci.org/uqbar-project/eg-conversor-react.svg?branch=feature%2Fcypress)](https://travis-ci.org/uqbar-project/eg-conversor-react)
