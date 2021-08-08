@@ -257,3 +257,5 @@ Para definir los estilos de la página utilizamos los componentes definidos por 
 
 - [Página de inicio](https://github.com/couds/react-bulma-components)
 - [Storybook](https://couds.github.io/react-bulma-components/?path=/story)
+
+> **Nota importante**: estamos usando la versión 3.4.0 ya que de la 4 en adelante no está generado correctamente el build y no funciona.
