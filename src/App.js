@@ -4,19 +4,22 @@ import 'bulma/css/bulma.min.css'
 import { Box, Form, Heading, Tag } from 'react-bulma-components'
 
 import { convertirMillasAKms } from './conversor'
-import logo from './logo.svg'
+
+const { Control, Field, Label, Input } = Form
+
+const INITIAL_VALUE = ''
 
 class App extends Component {
   constructor() {
     super()
     this.state = {
-      kilometros: '<Ingrese millas>',
+      millas: INITIAL_VALUE,
     }
   }
 
-  convertir(newMillas) {
+  actualizarMillas(newMillas) {
     this.setState({
-      kilometros: convertirMillasAKms(newMillas),
+      millas: newMillas,
     })
   }
 
@@ -27,20 +30,23 @@ class App extends Component {
 
     return (
       <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1>Conversor
-          &nbsp;
-            <small>React JS</small>
-          </h1>
-        </div>
-        <p>Ingrese millas:</p>
-        <input autoComplete="off" type="text" name="millas" data-testid="millas" onChange={(event) => this.convertir(event.target.value)} />
-        <p>Ingrese kilómetros:</p>
-        {Number.isNaN(this.state.kilometros) ?
-          <p data-testid="error">El formato utilizado no es valido</p>
-          : <p data-testid="kms">{this.state.kilometros.toLocaleString('es')}</p>}
-
+        <Box>
+          <Heading>
+            Conversor de millas a kilómetros - React
+        </Heading>
+          <Field>
+            <Label>Millas</Label>
+            <Control>
+              <Input value={this.state.millas} name="millas" autoComplete="off" data-testid="millas" onChange={(event) => this.actualizarMillas(event.target.value)} />
+            </Control>
+          </Field>
+          <Field>
+            <Label>Kilómetros</Label>
+            <Tag color={colorConversion} data-testid="error" rounded>
+              <Label data-testid="kms">{kilometros.toLocaleString('es')}</Label>
+            </Tag>
+          </Field>
+        </Box>
       </div>
     )
   }
