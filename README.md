@@ -1,5 +1,5 @@
 
-[![Build React App](https://github.com/uqbar-project/eg-conversor-react/actions/workflows/build.yml/badge.svg?branch=feature%2Fcypress)](https://github.com/uqbar-project/eg-conversor-react/actions/workflows/build.yml) ![coverage](./badges/coverage/coverage.svg)
+[![Build React App](https://github.com/uqbar-project/eg-conversor-react/actions/workflows/build.yml/badge.svg?branch=feature%2Fcypress)](https://github.com/uqbar-project/eg-conversor-react/actions/workflows/build.yml)
 
 # Conversor ReactJS
 
@@ -140,47 +140,10 @@ Fácil, creamos dentro de nuestro `package.json` los siguientes comandos:
 }
 ```
 
-Ya que dentro de travis utilizamos los siguientes comandos:
-
-```yaml
-language: node_js
-
-node_js:
-  - 14
-
-# if using Ubuntu 16 need this library
-# https://github.com/cypress-io/cypress-documentation/pull/1647
-addons:
-  apt:
-    packages:
-    - libgconf-2-4
-
-cache:
-  # cache both npm modules and Cypress binary
-  directories:
-    - ~/.npm
-    - ~/.cache
-  override:
-    - npm ci
-    - npm run cy:verify
-
-defaults: &defaults
-script:
-  - npm run test
-  - npm run cy:ci
-```
-
 - `npm run cy:ci` levanta nuestra aplicación y espera a que este completamente levantada para seguir al próximo paso (usamos una biblioteca llamada start-server-and-test para esperar)
 
-para instalar `start-server-and-test` : `npm install --save-dev wait-on`
+para instalar `start-server-and-test` : `yarn install wait-on -D`
 
-- `npm run cy:ci` corre nuestros tests en modo Continuous Integration
-- `npm run cy:verify` chequea la instalación de travis en el ambiente
+- `yarn run cy:ci` corre nuestros tests en modo Continuous Integration
+- `yarn run cy:verify` chequea la instalación de CI en el ambiente
 
-<<<<<<< HEAD
-=======
-- [Página de inicio](https://github.com/couds/react-bulma-components)
-- [Storybook](https://couds.github.io/react-bulma-components/?path=/story)
-
-> **Nota importante**: estamos usando la versión 3.4.0 ya que de la 4 en adelante no está generado correctamente el build y no funciona.
->>>>>>> 14e298c (Downgrading react-bulma-components)
