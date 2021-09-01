@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Use Node.js 14.x
+    - name: Use Node.js 15.x
       uses: actions/setup-node@v1
       with:
-        node-version: 14.x
+        node-version: 15.x
     - name: Cache node modules
       uses: actions/cache@v1
       with:
@@ -23,6 +23,12 @@ jobs:
           ${{ runner.os }}-node-
     - name: Download dependencies with npm
       run: npm install
+    - run: npm ci
     - run: npm run lint && npm run build --if-present
     - name: Run the tests and generate coverage report
-      run: npm run cy:ci
+      run: npm test -- --coverage
+    - name: Adding coverage badge
+      uses: demyanets/angular-coverage-badges-action@v1
+      with:
+        coverage-summary-path: ./coverage/coverage-summary.json
+        github_token: ${{ secrets.GITHUB_TOKEN }}
