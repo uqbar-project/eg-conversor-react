@@ -222,9 +222,9 @@ test('inicialmente pide que convirtamos de millas a kilómetros', async () => {
 
 test('si ingresa un valor alfabético la conversión de millas a kilómetros no se realiza', async () => {
   const { getByTestId } = render(<App />)
-  // El usuario carga 10 en millas
   const inputMillas = getByTestId('millas')
-  fireEvent.change(inputMillas, { target: { value: 'dos' } })
+  // El usuario carga 'dos' en millas, otra variante más declarativa
+  userEvent.type(inputMillas, 'dos')
   expect(getByTestId('kms')).toHaveTextContent('<Ingrese un valor numérico>')
 })
 ```
