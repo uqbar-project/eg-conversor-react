@@ -1,246 +1,66 @@
 
-[![Build React App](https://github.com/uqbar-project/eg-conversor-react/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/uqbar-project/eg-conversor-react/actions/workflows/build.yml) ![coverage](./badges/coverage/coverage.svg)
+[![Build React App](https://github.com/uqbar-project/eg-conversor-react/actions/workflows/build.yml/badge.svg?branch=hooks-2021)](https://github.com/uqbar-project/eg-conversor-react/actions/workflows/build.yml) ![coverage](./badges/coverage/coverage.svg)
 
 # Conversor ReactJS
 
 ![video](video/demo2020.gif)
 
-Este proyecto fue generado con el script [Create React App](https://github.com/facebookincubator/create-react-app).
+## Variante con hooks
 
-## Arquitectura general
+Anteriormente dijimos que un componente podía definirse
 
-### Dominio
+- como una función
+- o como una clase
 
-![image](images/ConversorReactClases.png)
+y que la variante de clase era necesaria para poder definir estado. En este branch vamos a definir el conversor como un componente funcional:
 
-El dominio podría ser 
+```jsx
+const App = () => {
+  const [millas, setMillas] = useState(INITIAL_VALUE)
 
-- un objeto
-- o bien podemos modelarlo simplemente con una función, que recibe las millas y lo convierte a kilómetros. Se puede ver en el archivo _conversor.js_ del directorio src:
+  const kilometros = millas === INITIAL_VALUE ? '<Ingrese millas>' : (isNaN(millas) ? '<Ingrese un valor numérico>' : convertirMillasAKms(millas))
+  const colorConversion = millas === INITIAL_VALUE || isNaN(millas) ? 'warning' : 'success'
 
-```js
-const FACTOR_CONVERSION = 1.60934
-
-export const convertirMillasAKms = (millas) => millas * FACTOR_CONVERSION
-```
-
-### Vista
-
-La vista tiene 
-
-- como estados una sola clave: "millas" con el valor en millas
-- temporalmente tomamos las millas del estado y hacemos la conversión a kilómetros, y definimos la clase "success" / "warning" en caso de que la conversión sea exitosa o no para ver el badge verde o amarillo, respectivamente.
-- un input type text cuyo evento onChange dispara la conversión
-- al convertir se actualiza el state del componente generando un nuevo valor para la variable `millas`.
-
-Esto puede verse en el archivo _App.js_ del directorio src:
-
-```javascript
-class App extends Component {
-  constructor() {
-    super()
-    this.state = {
-      millas: INITIAL_VALUE,
-    }
-  }
-
-  actualizarMillas(newMillas) {
-    this.setState({
-      millas: newMillas,
-    })
-  }
-
-  render() {
-    const newMillas = this.state.millas
-    const kilometros = newMillas === INITIAL_VALUE ? '<Ingrese millas>' : (isNaN(newMillas) ? '<Ingrese un valor numérico>' : convertirMillasAKms(newMillas))
-    const colorConversion = newMillas === INITIAL_VALUE || isNaN(newMillas) ? 'warning' : 'success'
-
-    return (
-      <div className="App">
-        <Box>
-          <Heading>
-            Conversor de millas a kilómetros - React
+  return (
+    <div className="App">
+      <Box>
+        <Heading>
+          Conversor de millas a kilómetros - React
         </Heading>
-          <Field>
-            <Label>Millas</Label>
-            <Control>
-              <Input value={this.state.millas} name="millas" autoComplete="off" data-testid="millas" onChange={(event) => this.actualizarMillas(event.target.value)} />
-            </Control>
-          </Field>
-          <Field>
-            <Label>Kilómetros</Label>
-            <Tag color={colorConversion} rounded>
-              <Label data-testid="kms">{kilometros.toLocaleString('es')}</Label>
-            </Tag>
-          </Field>
-        </Box>
-      </div>
-    )
-  }
+        <Field>
+          <Label>Millas</Label>
+          <Control>
+            <Input value={millas} name="millas" autoComplete="off" data-testid="millas" onChange={(event) => setMillas(event.target.value)} />
+          </Control>
+        </Field>
+        <Field>
+          <Label>Kilómetros</Label>
+          <Tag color={colorConversion} rounded>
+            <Label data-testid="kms">{kilometros.toLocaleString('es')}</Label>
+          </Tag>
+        </Field>
+      </Box>
+    </div>
+  )
 }
 ```
 
-## Reaccionando ante un cambio en las millas
-
-Nos detenemos en la definición del evento onChange para el input de millas:
-
-```jsx
-onChange={(event) => this.actualizarMillas(event.target.value)}
-```
-
-Definir una expresión lambda (_arrow function_) permite que la referencia `this` esté apuntando al componente React que estamos escribiendo. Podríamos pensar que una definición similar podría ser:
-
-```jsx
-onChange={this.actualizarMillas}
-```
-
-Y modificar el método actualizarMillas para adaptar el valor recibido:
+App está definida como una _lambda_, y trabajamos el estado mediante un **hook**:
 
 ```js
-  actualizarMillas(event) {
-    const newMillas = event.target.value
-    this.setState({
-      ...
+  const [millas, setMillas] = useState(INITIAL_VALUE)
 ```
 
-Pero ojo que podemos llevarnos algunas sorpresas...
+Como bien explica [la documentación oficial de React](https://es.reactjs.org/docs/hooks-overview.html), el hook `useState`
 
-![error, setState undefined](./images/setStateUndefinedThis2.png)
+- recibe como input un valor inicial
+- y devuelve un par en forma de lista: el valor del estado actual y una función que permite actualizar el nuevo valor
 
-## Entendiendo el binding de eventos
+Esto significa que dentro de la función App, podemos obtener el valor de las millas con la referencia `millas` para convertirlo a kilómetros. Y cuando el usuario escriba un valor nuevo en el input, eso debe actualizar el estado mediante la invocación a la función `setMillas`. Como consecuencia,
 
-En [este articulo](https://reactkungfu.com/2015/07/why-and-how-to-bind-methods-in-your-react-component-classes/) se explica que cuando definimos una función en Javascript, la variable `this` se refiere al contexto de ejecución de dicha función:
+- nos concentramos solo en la parte del estado que queremos cambiar
+- nuestro componente puede seguir siendo funcional, por lo tanto se concentra solo en la parte **presentacional** (cómo muestra la información al usuario), 
+- es más declarativo (dice menos cómo lo implementa y lo delega en un motor, en este caso el que mantiene el estado utilizando React Hooks), esto es tanto una ventaja como una contra, si necesitamos tomar el control de ciertas cosas que ocurran, pueden ver el ejemplo de la heladería
+- puede tener una curva de aprendizaje más elevada para los desarrolladores que estén acostumbrados a trabajar con clases, aunque en general hay que reconocer que la variante funcional + hooks suele ser más simple que la misma resolución con clases.
 
-```js
-// esto se puede ejecutar en cualquier browser
-const frog = {
-  RUN_SOUND: "POP!!",
-  run: function() { 
-    console.log('this es ', this)
-    return this.RUN_SOUND
-  }
-}
-```
-
-Si `frog` es un objeto, y vemos `run()` como un método de dicho objeto, lo natural es que pensemos en enviar el mensaje de la siguiente manera:
-
-```js
-> frog.run() 
-this es  {RUN_SOUND: "POP!!", run: ƒ}
-"POP!!"
-```
-
-Pero ECMAScript es también un lenguaje funcional, entonces puedo definir una variable y construir una función a partir del método definido en `frog`:
-
-```js
-> const f = frog.run
-```
-
-Ojo que al no pasarle paréntesis, no estamos invocando a la función, sino referenciando con la variable f a la función `frog.run`, que no recibe parámetros y devuelve un string.
-
-Cuando invocamos a f, nuestra sorpresa:
-
-```js
-> f()
-this es  Window {postMessage: ƒ, blur: ƒ, focus: ƒ, close: ƒ, frames: Window, …}
-undefined
-```
-
-La variable `this` no está ligada a `frog`, sino a `window` (nuestro browser). Al extraer `f` como variable separada del objeto `frog`, perdimos el contexto de ejecución de this. Para poder recuperarlo, necesitamos la función bind:
-
-```js
-> const fParaFrog = f.bind(frog)
-> fParaFrog()
-this es  {RUN_SOUND: "POP!!", run: ƒ}
-"POP!!"
-// o bien...
-> f.bind(frog)() // ...que produce el mismo resultado
-```
-
-Por ese motivo, queremos que al invocar a actualizarMillas, `this` referencie a nuestro componente React y no a window. Entonces aplicamos el bind en el constructor:
-
-```js
-class App extends Component {
-  constructor() {
-    ...
-    this.actualizarMillas = this.actualizarMillas.bind(this)
-  }
-```
-
-¿Por qué lo hacemos? Porque en la función render asociamos el evento onChange a la referencia `actualizarMillas` de nuestra App, que de otra forma sería una función sin contexto asociado:
-
-```js
-  <input type="text" name="millas" id="millas" onChange={this.actualizarMillas} />
-```
-
-Otros artículos que recomendamos leer:
-
-- [por qué debemos utilizar bind en eventos de ReactJS](https://medium.freecodecamp.org/this-is-why-we-need-to-bind-event-handlers-in-class-components-in-react-f7ea1a6f93eb)
-- [la documentación oficial de la función bind](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_objects/Function/bind)
-- [5 formas de definir el binding](https://medium.freecodecamp.org/react-binding-patterns-5-approaches-for-handling-this-92c651b5af56)
-
-> A partir de aquí, dejamos que establezcas tu propio criterio para elegir una opción u otra.
-
-## Ciclo de vida
-
-Para entender el ciclo de vida
-
-1. render inicial
-2. el usuario escribe un 1
-3. onChange dispara un nuevo setState con el objeto `{ "millas": "1" }`
-4. se ejecuta un nuevo render, con la conversión a kilómetros
-5. el usuario escribe un 2, 
-6. onChange dispara un nuevo setState con el objeto `{ "millas": "12" }`
-7. se ejecuta un nuevo render, con la conversión a kilómetros...
-
-pueden escribir un `console.log` en cada evento.
-
-# Testing
-
-Para testear el componente probamos
-
-- que inicialmente el valor en kilómetros dice `"<Ingrese millas>"`
-- que si escribimos un valor alfabético el valor en kilómetros mostrará el error `"<Ingrese un valor numérico>"`
-- que al escribir el valor "10" en millas eso convierte a "16.093"
-
-Resolvemos los tests unitarios utilizando el framework React Testing Library (que reemplaza a Enzyme para las versiones recientes de create-react-app)
-
-```js
-test('convierte un valor > 0 de millas a kilómetros correctamente', async () => {
-  render(<App />)
-  // El usuario carga 10 en millas
-  const inputMillas = screen.getByTestId('millas')
-  // Una forma de simular la carga del usuario es lanzar manualmente un evento con la información
-  // que recibiría el componente de React
-  // fireEvent.change(inputMillas, { target: { value: '10' } })
-  // una variante más declarativa es
-  userEvent.type(inputMillas, '10')
-  // https://stackoverflow.com/questions/52618569/set-the-locale-for-date-prototype-tolocalestring-for-jest-tests
-  expect(screen.getByTestId('kms')).toHaveTextContent('16,093')
-})
-
-test('inicialmente pide que convirtamos de millas a kilómetros', async () => {
-  render(<App />)
-  expect(screen.getByTestId('kms')).toHaveTextContent('<Ingrese millas>')
-})
-
-test('si ingresa un valor alfabético la conversión de millas a kilómetros no se realiza', async () => {
-  render(<App />)
-  const inputMillas = screen.getByTestId('millas')
-  userEvent.type(inputMillas, 'dos')
-  expect(screen.getByTestId('kms')).toHaveTextContent('<Ingrese un valor numérico>')
-})
-```
-
-## Customizaciones
-
-### Favicon
-
-En la carpeta `public` también se ubica el `favicon.ico` que podés generar a partir de un png con varios programas online, como https://convertico.com/
-
-### react-bulma-components
-
-Para definir los estilos de la página utilizamos los componentes definidos por React Bulma Components:
-
-- [Página de inicio](https://github.com/couds/react-bulma-components)
-- [Storybook](https://couds.github.io/react-bulma-components/?path=/story)
+En la cursada dejaremos que uds. elijan su variante predilecta.
