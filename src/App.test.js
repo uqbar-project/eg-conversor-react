@@ -28,15 +28,3 @@ test('si ingresa un valor alfabético la conversión de millas a kilómetros no 
   userEvent.type(inputMillas, 'dos')
   expect(screen.getByTestId('kms')).toHaveTextContent('<Ingrese un valor numérico>')
 })
-
-test('inicialmente pide que convirtamos de millas a kilómetros', async () => {
-  render(<App />)
-  expect(screen.getByTestId('kms')).toHaveTextContent('<Ingrese millas>')
-})
-
-test('si ingresa un valor alfabético la conversión de millas a kilómetros no se realiza', async () => {
-  render(<App />)
-  const inputMillas = screen.getByTestId('millas')
-  userEvent.type(inputMillas, 'dos')
-  expect(screen.getByTestId('kms')).toHaveTextContent('<Ingrese un valor numérico>')
-})
