@@ -1,21 +1,18 @@
 
-[![Build React App](https://github.com/uqbar-project/eg-conversor-react/actions/workflows/build.yml/badge.svg?branch=feature%2Fcypress)](https://github.com/uqbar-project/eg-conversor-react/actions/workflows/build.yml)
+[![Build React App](https://github.com/uqbar-project/eg-conversor-react/actions/workflows/build.yml/badge.svg?branch=feature%2Fcypress)](https://github.com/uqbar-project/eg-conversor-react/actions/workflows/build.yml) ![coverage](./badges/coverage/coverage.svg)
+
 
 # Conversor ReactJS
 
 Si estás buscando la explicación original podés encontrarla en el branch [master](https://github.com/uqbar-project/eg-conversor-react).
-=======
-[![Build React App](https://github.com/uqbar-project/eg-conversor-react/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/uqbar-project/eg-conversor-react/actions/workflows/build.yml) ![coverage](./badges/coverage/coverage.svg)
-
-# Conversor ReactJS
 
 ![video](video/demo2020.gif)
 
 [Cypress](https://www.cypress.io) en un framework de test e2e, para testear aplicaciones que corren en un navegador.
 
-### ¿Y pero esto no es lo mismo que los test unitarios con jest? :thinking: :thinking: :thinking: 
+### ¿Y pero ésto no es lo mismo que los test unitarios con jest? :thinking: :thinking: :thinking: 
 
-¡No! la diferencia que tenemos con los test unitarios, es que estos solo testean los componentes por separado, en cambio acá nosotros levantamos un navegador y podemos testear cómo interactúan nuestros componentes entre si, solo guiándonos por el HTML de nuestro sitio.
+¡No! la diferencia que tenemos con los test unitarios, es que estos solo testean los componentes por separado, en cambio acá nosotros levantamos un navegador y podemos testear cómo interactúan nuestros componentes entre sí, solo guiándonos por el HTML de nuestro sitio.
 
 ## Instalación :hammer_and_wrench: 
 
@@ -28,18 +25,12 @@ npm install cypress --save-dev
 Ahora le decimos a cypress que nos cree los archivos necesarios para comenzar a testear, tal como dice en la web podemos usar algunos de estos comandos
 
 ```bash
-./node_modules/.bin/cypress open # o donde esté instalado el binario global de npm
-```
-
-O bien si tenemos npx (que se encuentra en la versión de npm `5.2` hacia delante)
-
-```bash
 npx cypress open
 ```
 
 Si es la primera vez que corremos el proyecto, nos va a crear un montón de ejemplos de cómo testear, en caso contrario nos va abre el ambiente de desarrollo de cypress que tiene la siguiente pinta:
 
-![video](video/cypress.gif)
+![video](video/cypress2022.gif)
 
 En la primera pantalla nos muestra los archivos de tests que escribimos, los clickeamos y abre un navegador y empieza a correr nuestros tests. Pero ¡ojo! tenemos que tener nuestra aplicación levantada para poder correr los tests
 
@@ -49,13 +40,22 @@ En la primera pantalla nos muestra los archivos de tests que escribimos, los cli
 npm run start
 ```
 
-Una vez levantado podemos correr el comando `open` de cypress, pero antes debemos modificar el archivo *cypress.json* para que la url base de los tests sea `localhost:3000` (puerto en el cual levantamos nuestra app).
+Una vez levantado podemos correr el comando `open` de cypress, pero antes debemos modificar el archivo *cypress.config.js* para que la url base de los tests sea `localhost:3000` (puerto en el cual levantamos nuestra app).
 
 ```json
-{
-    "baseUrl": "http://localhost:3000",
-    "video": false
-}
+const { defineConfig } = require('cypress')
+
+module.exports = defineConfig({
+  video: false,
+  e2e: {
+    // We've imported your old cypress plugins here.
+    // You may want to clean this up later by importing these.
+    setupNodeEvents(on, config) {
+      return require('./cypress/plugins/index.js')(on, config)
+    },
+    baseUrl: 'http://localhost:3000',
+  },
+})
 ```
 
 ponemos `video` en `false` para que no grabe los tests 
@@ -110,7 +110,6 @@ describe('Caso alfabetico', () => {
   })
 
 })
-
 ```
 
 Separamos los describes por *flujos* de nuestra aplicación y hacemos uso de `data-testid` para no acoplarnos a los atributos de html.
@@ -123,13 +122,11 @@ La funciones que usamos de cypress son:
 - `cy.get` => obtenemos un elemento del DOM en base a un selector
 - `cy.type` => escribimos en un input
 
-## ¿Y github actions ? :construction_worker_man: 
-
-TODO: actualizar
+## ¿Y Github Actions? :construction_worker_man: 
 
 Bueno cypress en su [pagina](https://docs.cypress.io/guides/guides/continuous-integration.html#Setting-up-CI) nos comenta cómo integrar con nuestro CI de turno, estos test e2e.
 
-Nosotros nos basamos en [este archivo](https://github.com/cypress-io/cypress-example-kitchensink/blob/master/.travis.yml) para crear el nuestro, borrando código redudante y demás yerbas.
+Nosotros nos basamos en [este archivo](https://github.com/cypress-io/cypress-example-kitchensink/blob/master/.github/workflows/chrome-headless.yml) para crear el nuestro, borrando código redudante y demás yerbas.
 
 Pero como hemos vimos antes,tenemos que tener la aplicación corriendo para poder testearla.... y ¿cómo hacemos eso en CI?
 
@@ -146,7 +143,7 @@ Fácil, creamos dentro de nuestro `package.json` los siguientes comandos:
 
 - `npm run cy:ci` levanta nuestra aplicación y espera a que este completamente levantada para seguir al próximo paso (usamos una biblioteca llamada start-server-and-test para esperar)
 
-para instalar `start-server-and-test` : `yarn install wait-on -D`
+para instalar `start-server-and-test` : `npm install wait-on -D`
 
 - `yarn run cy:ci` corre nuestros tests en modo Continuous Integration
 - `yarn run cy:verify` chequea la instalación de CI en el ambiente
