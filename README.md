@@ -42,7 +42,7 @@ npm run start
 
 Una vez levantado podemos correr el comando `open` de cypress, pero antes debemos modificar el archivo *cypress.config.js* para que la url base de los tests sea `localhost:3000` (puerto en el cual levantamos nuestra app).
 
-```json
+```js
 const { defineConfig } = require('cypress')
 
 module.exports = defineConfig({
@@ -132,7 +132,7 @@ Pero como hemos vimos antes,tenemos que tener la aplicación corriendo para pode
 
 Fácil, creamos dentro de nuestro `package.json` los siguientes comandos:
 
-```js
+```json
 {
   "cy:open": "cypress open",
   "cy:run": "cypress run",
