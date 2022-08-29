@@ -132,7 +132,7 @@ Pero como hemos vimos antes,tenemos que tener la aplicación corriendo para pode
 
 Fácil, creamos dentro de nuestro `package.json` los siguientes comandos:
 
-```json
+```js
 {
   "cy:open": "cypress open",
   "cy:run": "cypress run",
