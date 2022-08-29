@@ -4,10 +4,12 @@
 # Conversor ReactJS
 
 Si estás buscando la explicación original podés encontrarla en el branch [master](https://github.com/uqbar-project/eg-conversor-react).
+=======
+[![Build React App](https://github.com/uqbar-project/eg-conversor-react/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/uqbar-project/eg-conversor-react/actions/workflows/build.yml) ![coverage](./badges/coverage/coverage.svg)
 
-# Cypress :tada: :tada: :tada: 
+# Conversor ReactJS
 
-## ¿Qué es? 
+![video](video/demo2020.gif)
 
 [Cypress](https://www.cypress.io) en un framework de test e2e, para testear aplicaciones que corren en un navegador.
 
@@ -121,7 +123,9 @@ La funciones que usamos de cypress son:
 - `cy.get` => obtenemos un elemento del DOM en base a un selector
 - `cy.type` => escribimos en un input
 
-## ¿Y travis ? :construction_worker_man: 
+## ¿Y github actions ? :construction_worker_man: 
+
+TODO: actualizar
 
 Bueno cypress en su [pagina](https://docs.cypress.io/guides/guides/continuous-integration.html#Setting-up-CI) nos comenta cómo integrar con nuestro CI de turno, estos test e2e.
 
@@ -146,4 +150,3 @@ para instalar `start-server-and-test` : `yarn install wait-on -D`
 
 - `yarn run cy:ci` corre nuestros tests en modo Continuous Integration
 - `yarn run cy:verify` chequea la instalación de CI en el ambiente
-

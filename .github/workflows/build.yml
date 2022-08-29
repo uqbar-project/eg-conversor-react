@@ -23,6 +23,11 @@ jobs:
           ${{ runner.os }}-node-
     - name: Download dependencies with npm
       run: npm install
-    - run: npm run lint && npm run build --if-present
+    - run: npm run build --if-present
     - name: Run the tests and generate coverage report
       run: npm run cy:ci
+    # - name: Adding coverage badge
+    #   uses: demyanets/angular-coverage-badges-action@v1
+    #   with:
+    #     coverage-summary-path: ./coverage/coverage-summary.json
+    #     github_token: ${{ secrets.GITHUB_TOKEN }}
