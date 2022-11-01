@@ -4,7 +4,7 @@ import React from 'react'
 import App from './App'
 
 
-test('convierte un valor > 0 de millas a kilómetros correctamente', async () => {
+test('convierte un valor > 0 de millas a kilómetros correctamente', () => {
   render(<App />)
   // El usuario carga 10 en millas
   const inputMillas = screen.getByTestId('millas')
@@ -17,12 +17,12 @@ test('convierte un valor > 0 de millas a kilómetros correctamente', async () =>
   expect(screen.getByTestId('kms')).toHaveTextContent('16,093')
 })
 
-test('inicialmente pide que convirtamos de millas a kilómetros', async () => {
+test('inicialmente pide que convirtamos de millas a kilómetros', () => {
   render(<App />)
   expect(screen.getByTestId('kms')).toHaveTextContent('<Ingrese millas>')
 })
 
-test('si ingresa un valor alfabético la conversión de millas a kilómetros no se realiza', async () => {
+test('si ingresa un valor alfabético la conversión de millas a kilómetros no se realiza', () => {
   render(<App />)
   const inputMillas = screen.getByTestId('millas')
   userEvent.type(inputMillas, 'dos')
