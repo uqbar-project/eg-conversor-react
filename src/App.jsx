@@ -1,4 +1,4 @@
-import React from 'react'
+import 'bulma/css/bulma.min.css'
 import { useState } from 'react'
 import { Box, Form, Heading, Tag } from 'react-bulma-components'
 

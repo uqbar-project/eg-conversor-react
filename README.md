@@ -7,18 +7,16 @@
 
 ## Variante con hooks
 
-Anteriormente dijimos que un componente podía definirse
+Para tener el conversor necesitamos definir:
 
-- como una función
-- o como una clase
-
-y que la variante de clase era necesaria para poder definir estado. En este branch vamos a definir el conversor como un componente funcional:
+- el estado: lo que queremos modificar (las millas)
+- vs. lo que se puede calcular (los kilómetros en este caso, pero también el color del badge si hay un error en la conversión)
 
 ```jsx
 const App = () => {
   const [millas, setMillas] = useState(INITIAL_VALUE)
 
-  const kilometros = millas === INITIAL_VALUE ? '<Ingrese millas>' : (isNaN(millas) ? '<Ingrese un valor numérico>' : convertirMillasAKms(millas))
+  const kilometros = millas === INITIAL_VALUE ? '<Ingrese millas>' : isNaN(millas) ? '<Ingrese un valor numérico>' : convertirMillasAKms(millas)
   const colorConversion = millas === INITIAL_VALUE || isNaN(millas) ? 'warning' : 'success'
 
   return (
@@ -59,8 +57,6 @@ Como bien explica [la documentación oficial de React](https://es.reactjs.org/do
 Esto significa que dentro de la función App, podemos obtener el valor de las millas con la referencia `millas` para convertirlo a kilómetros. Y cuando el usuario escriba un valor nuevo en el input, eso debe actualizar el estado mediante la invocación a la función `setMillas`. Como consecuencia,
 
 - nos concentramos solo en la parte del estado que queremos cambiar
-- nuestro componente puede seguir siendo funcional, por lo tanto se concentra solo en la parte **presentacional** (cómo muestra la información al usuario), 
-- es más declarativo (dice menos cómo lo implementa y lo delega en un motor, en este caso el que mantiene el estado utilizando React Hooks), esto es tanto una ventaja como una contra, si necesitamos tomar el control de ciertas cosas que ocurran, pueden ver el ejemplo de la heladería
-- puede tener una curva de aprendizaje más elevada para los desarrolladores que estén acostumbrados a trabajar con clases, aunque en general hay que reconocer que la variante funcional + hooks suele ser más simple que la misma resolución con clases.
+- nuestro componente puede seguir siendo funcional, por lo tanto se concentra solo en la parte **presentacional** (cómo muestra la información al usuario)
 
-En la cursada dejaremos que uds. elijan su variante predilecta.
+En definitiva, un componente React puede ser visto como una función, como en este ejemplo, o como una clase. Si te interesa ver el segundo approach, podés ver [este ejemplo](https://legacy.reactjs.org/docs/react-component.html) o bien [la documentación oficial de React](https://react.dev/reference/react/Component).
