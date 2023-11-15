@@ -1,7 +1,6 @@
 import 'bulma/css/bulma.min.css'
 import { useState } from 'react'
 import { Box, Form, Heading, Tag } from 'react-bulma-components'
-
 import { convertirMillasAKms } from './conversor'
 
 const { Control, Field, Label, Input } = Form
