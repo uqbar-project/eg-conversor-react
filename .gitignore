@@ -25,3 +25,6 @@ dist-ssr
 
 # VSC - Git Lens
 .history
+
+# Coverage report
+coverage
