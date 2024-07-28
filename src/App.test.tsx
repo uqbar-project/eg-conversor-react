@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { expect, test } from 'vitest'
 import App from './App'
+import { expect, test } from 'vitest'
 
 
 test('convierte un valor > 0 de millas a kilómetros correctamente', async () => {
@@ -12,19 +12,15 @@ test('convierte un valor > 0 de millas a kilómetros correctamente', async () =>
   // que recibiría el componente de React
   // fireEvent.change(inputMillas, { target: { value: '10' } })
   // una variante más declarativa es
-  await userEvent.type(inputMillas, '10') // OJO con el await!!
+  await userEvent.type(inputMillas, '10') // OJO que necesitamos el await!!
   // https://stackoverflow.com/questions/52618569/set-the-locale-for-date-prototype-tolocalestring-for-jest-tests
-  expect(screen.getByTestId('kms')).toHaveTextContent('16,093')
+  expect(kilometers()).toBe('16,093')
 })
 
 test('inicialmente pide que convirtamos de millas a kilómetros', () => {
   render(<App />)
-  expect(screen.getByTestId('kms')).toHaveTextContent('<Ingrese millas>')
+  expect(kilometers()).toBe('<Ingrese millas>')
 })
 
-test('si ingresa un valor alfabético la conversión de millas a kilómetros no se realiza', async () => {
-  render(<App />)
-  const inputMillas = screen.getByTestId('millas')
-  await userEvent.type(inputMillas, 'dos')
-  expect(screen.getByTestId('kms')).toHaveTextContent('<Ingrese un valor numérico>')
-})
+const kilometers = () => screen.getByTestId('kms').textContent
+

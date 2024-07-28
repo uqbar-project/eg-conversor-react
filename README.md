@@ -16,8 +16,9 @@ Para tener el conversor necesitamos definir:
 const App = () => {
   const [millas, setMillas] = useState(INITIAL_VALUE)
 
-  const kilometros = millas === INITIAL_VALUE ? '<Ingrese millas>' : isNaN(millas) ? '<Ingrese un valor numérico>' : convertirMillasAKms(millas)
-  const colorConversion = millas === INITIAL_VALUE || isNaN(millas) ? 'warning' : 'success'
+  const millasConvertido = +millas
+  const kilometros = millas === INITIAL_VALUE ? '<Ingrese millas>' : isNaN(millasConvertido) ? '<Ingrese un valor numérico>' : convertirMillasAKms(millasConvertido)
+  const colorConversion = millas === INITIAL_VALUE || isNaN(millasConvertido) ? 'warning' : 'success'
 
   return (
     <div className="App">
