@@ -1,5 +1,5 @@
 
-[![Build React App](https://github.com/uqbar-project/eg-conversor-react/actions/workflows/build.yml/badge.svg)](https://github.com/uqbar-project/eg-conversor-react/actions/workflows/build.yml) ![coverage](./badges/coverage/coverage.svg)
+[![Build React App](https://github.com/uqbar-project/eg-conversor-react/actions/workflows/build.yml/badge.svg)](https://github.com/uqbar-project/eg-conversor-react/actions/workflows/build.yml) [![codecov](https://codecov.io/gh/uqbar-project/eg-conversor-react/graph/badge.svg?token=KYlbA99E6E)](https://codecov.io/gh/uqbar-project/eg-conversor-react)
 
 # Conversor ReactJS
 
@@ -17,28 +17,26 @@ const App = () => {
   const [millas, setMillas] = useState(INITIAL_VALUE)
 
   const millasConvertido = +millas
-  const kilometros = millas === INITIAL_VALUE ? '<Ingrese millas>' : isNaN(millasConvertido) ? '<Ingrese un valor numérico>' : convertirMillasAKms(millasConvertido)
-  const colorConversion = millas === INITIAL_VALUE || isNaN(millasConvertido) ? 'warning' : 'success'
+  const kilometros = millas === INITIAL_VALUE ? '<Ingrese millas>' : convertirMillasAKms(millasConvertido)
+  const colorConversion = millas === INITIAL_VALUE ? 'warning' : 'success'
 
   return (
     <div className="App">
-      <Box>
-        <Heading>
+        <div className="header">
           Conversor de millas a kilómetros - React
-        </Heading>
-        <Field>
-          <Label>Millas</Label>
-          <Control>
-            <Input value={millas} name="millas" autoComplete="off" data-testid="millas" onChange={(event) => setMillas(event.target.value)} />
-          </Control>
-        </Field>
-        <Field>
-          <Label>Kilómetros</Label>
-          <Tag color={colorConversion} rounded>
-            <Label data-testid="kms">{kilometros.toLocaleString('es')}</Label>
-          </Tag>
-        </Field>
-      </Box>
+        </div>
+        <div className="form">
+          <div className="row">
+            <label>Millas</label>
+            <input type="number" value={millas} name="millas" autoComplete="off" data-testid="millas" onChange={(event) => setMillas(event.target.value)} />
+          </div>
+          <div className="row">
+            <label>Kilómetros</label>
+            <div className={colorConversion}>
+              <span data-testid="kms">{kilometros.toLocaleString('es')}</span>
+            </div>
+          </div>
+        </div>
     </div>
   )
 }
