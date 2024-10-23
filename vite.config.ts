@@ -19,7 +19,6 @@ export default defineConfig({
     environment: 'jsdom',
     coverage: {
       reporter: ['lcov', 'json', 'html', 'json-summary'],
-      include: [ './src'],
       exclude: [ './src/main.tsx', '**/*.cjs', '**/*.d.ts' ],
     },
     exclude: [...configDefaults.exclude, './src/main.tsx'],
