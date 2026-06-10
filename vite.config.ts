@@ -1,8 +1,8 @@
 /// <reference types="vitest" />
 /// <reference types="vite/client" />
 
-import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
+import { defineConfig } from 'vitest/config'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -17,8 +17,8 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     coverage: {
+      exclude: ['./src/main.tsx', '**/*.cjs', '**/*.d.ts', 'vite.config.ts'],
       reporter: ['lcov', 'json', 'html', 'json-summary'],
-      exclude: [ './src/main.tsx', '**/*.cjs', '**/*.d.ts', 'vite.config.ts' ],
     },
-  }
+  },
 })

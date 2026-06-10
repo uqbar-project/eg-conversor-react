@@ -12,31 +12,29 @@ Para tener el conversor necesitamos definir:
 - el estado: lo que queremos modificar (las millas)
 - vs. lo que se puede calcular (los kilómetros en este caso, pero también el color del badge si hay un error en la conversión)
 
-```jsx
-const App = () => {
-  const [millas, setMillas] = useState(INITIAL_VALUE)
-
-  const millasConvertido = +millas
-  const kilometros = millas === INITIAL_VALUE ? '<Ingrese millas>' : convertirMillasAKms(millasConvertido)
-  const colorConversion = millas === INITIAL_VALUE ? 'warning' : 'success'
-
+```tsx
   return (
     <div className="App">
-        <div className="header">
-          Conversor de millas a kilómetros - React
+      <div className="header">Conversor de millas a kilómetros - React</div>
+      <div className="form">
+        <div className="row">
+          <label htmlFor="millas">Millas</label>
+          <input
+            type="number"
+            value={millas}
+            name="millas"
+            autoComplete="off"
+            data-testid="millas"
+            onChange={(event) => setMillas(event.target.value)}
+          />
         </div>
-        <div className="form">
-          <div className="row">
-            <label>Millas</label>
-            <input type="number" value={millas} name="millas" autoComplete="off" data-testid="millas" onChange={(event) => setMillas(event.target.value)} />
-          </div>
-          <div className="row">
-            <label>Kilómetros</label>
-            <div className={colorConversion}>
-              <span data-testid="kms">{kilometros.toLocaleString('es')}</span>
-            </div>
+        <div className="row">
+          <div>Kilómetros</div>
+          <div className={colorConversion}>
+            <span data-testid="kms">{kilometros.toLocaleString('es')}</span>
           </div>
         </div>
+      </div>
     </div>
   )
 }

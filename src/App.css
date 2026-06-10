@@ -1,3 +1,13 @@
+:root {
+  --color-invalid-bg: #fef3c7;
+  --color-invalid-text: #92400e;
+  --color-invalid-border: #f59e0b;
+
+  --color-valid-bg: #d1fae5;
+  --color-valid-text: #065f46;
+  --color-valid-border: #10b981;
+}
+
 .App {
   margin: 1rem;
 }
@@ -25,12 +35,16 @@ label {
 
 .warning {
   padding: 0.5rem;
-  background-color: rgb(255, 253, 127);
+  background-color: var(--color-invalid-bg);
+  color: var(--color-invalid-text);
+  border: 2px solid var(--color-invalid-border);
   border-radius: 10px;
 }
 
 .success {
   padding: 0.5rem;
-  background-color: rgb(157, 255, 127);
+  background-color: var(--color-valid-bg);
+  color: var(--color-valid-text);
+  border: 2px solid var(--color-valid-border);
   border-radius: 10px;
 }
