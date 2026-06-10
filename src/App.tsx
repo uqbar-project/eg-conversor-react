@@ -24,6 +24,7 @@ const App = () => {
             type="number"
             value={millas}
             name="millas"
+            id="millas"
             autoComplete="off"
             data-testid="millas"
             onChange={(event) => setMillas(event.target.value)}
