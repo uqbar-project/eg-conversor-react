@@ -1,8 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import App from './App'
 import { expect, test } from 'vitest'
-
+import App from './App'
 
 test('convierte un valor > 0 de millas a kilómetros correctamente', async () => {
   render(<App />)
@@ -18,4 +17,3 @@ test('inicialmente pide que convirtamos de millas a kilómetros', () => {
 })
 
 const kilometers = () => screen.getByTestId('kms').textContent
-
