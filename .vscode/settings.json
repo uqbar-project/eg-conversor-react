@@ -5,6 +5,8 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.biome": "explicit"
   },
+  "js/ts.preferences.quoteStyle": "single",
+  "js/ts.suggest.autoImports": true,
   "[javascript]": {
     "editor.defaultFormatter": "biomejs.biome"
   },

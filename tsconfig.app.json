@@ -22,7 +22,13 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "verbatimModuleSyntax": true
+    "verbatimModuleSyntax": true,
+
+    "types": [
+      "vitest",
+      "@testing-library/react",
+      "@testing-library/user-event"
+    ]
   },
   "include": ["src"]
 }
