@@ -16,6 +16,11 @@
     "moduleDetection": "force",
     "noEmit": true,
     "jsx": "react-jsx",
+    "types": [
+      "vitest/globals",
+      "@testing-library/user-event",
+      "@testing-library/jest-dom"
+    ],
 
     /* Linting */
     "strict": true,
